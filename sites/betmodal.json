@@ -1,0 +1,60 @@
+{
+  "url": "https://betmodal.com",
+  "name": "BetModal",
+  "maxPages": 200,
+  "settings": {
+    "botName": "BetModal Support",
+    "brandColor": "#16a34a",
+    "theme": "dark",
+    "launcherText": "Help",
+    "greeting": "Hey! I'm BetModal Support. Ask me how rounds work, about Gold Coins and Sweepstakes Cash, tournaments, or your account.",
+    "quickReplies": ["How does a round work?", "Gold Coins vs Sweepstakes Cash", "How do I redeem prizes?", "Talk to support"],
+    "persona": "BetModal (betmodal.com) is a web-based price prediction game for adults 18+. Players call whether an asset's price will go UP or DOWN within 60-second rounds across crypto, forex, stocks and commodities, using live price feeds (sources such as Binance and Polygon) on 50+ markets. Features include copy trading, leaderboards, achievements and tournaments. It is free to play: new accounts start with 10,000 Gold Coins, and Sweepstakes Cash can be redeemed for prizes. No purchase is necessary; there is also a Gems Shop. Tone: energetic and friendly, but always responsible.",
+    "guardrails": [
+      "BetModal is for adults 18+ only. If someone says they are under 18, tell them they cannot play and do not help them create or use an account.",
+      "Never promise or imply guaranteed winnings, and never give trading or investment advice or predictions about where a price will go.",
+      "Explain that no purchase is necessary to play or to enter sweepstakes when relevant, and only state redemption rules, limits or eligible regions that appear in the knowledge.",
+      "If someone mentions chasing losses, spending more than they can afford, or feeling unable to stop, respond with care, suggest taking a break and using any limits or self-exclusion options the site offers, point them to the responsible-play page if it exists, and mention the National Council on Problem Gambling (ncpgambling.org) for free confidential help.",
+      "Never ask for passwords, full card numbers or ID numbers in chat; account and payment issues go to a human with [[HANDOFF]]."
+    ],
+    "disclaimer": "18+ only. Play responsibly. No purchase necessary.",
+    "handoffKeywords": ["human", "agent", "support", "refund", "chargeback", "withdraw", "redeem failed", "locked", "banned", "verify", "talk to someone"],
+    "temperature": 0.3,
+    "maxTokens": 600,
+    "showSources": true,
+    "recrawlDaily": true
+  },
+  "flow": {
+    "name": "BetModal support",
+    "start": "age",
+    "activate": true,
+    "steps": [
+      { "key": "age", "type": "message", "content": "Welcome to **BetModal**! Quick note: BetModal is for players **18+** — play for fun and play responsibly.", "next": "menu" },
+      {
+        "key": "menu",
+        "type": "buttons",
+        "content": "What do you need help with?",
+        "variable": "topic",
+        "options": [
+          { "label": "How to play", "next": "ai_play" },
+          { "label": "Coins, sweepstakes & prizes", "next": "ai_prizes" },
+          { "label": "Account or payment issue", "next": "acct_email" },
+          { "label": "Something else", "next": "ai_other" }
+        ]
+      },
+      { "key": "ai_play", "type": "ai", "content": "Each round lasts 60 seconds: pick UP or DOWN on an asset's price. Ask me about markets, tournaments, leaderboards or copy trading." },
+      { "key": "ai_prizes", "type": "ai", "content": "New accounts start with 10,000 Gold Coins. Ask me about Gold Coins, Sweepstakes Cash, the Gems Shop or redeeming prizes." },
+      { "key": "acct_email", "type": "collect_email", "content": "Sorry about that! What's the email on your BetModal account? (Never share your password.)", "next": "acct_issue" },
+      { "key": "acct_issue", "type": "question", "content": "Briefly, what's going on?", "variable": "issue", "next": "acct_handoff" },
+      { "key": "acct_handoff", "type": "handoff", "content": "Thanks — a support teammate will pick this up and reply here or at {{email}}." },
+      { "key": "ai_other", "type": "ai", "content": "Sure — what's your question?" }
+    ]
+  },
+  "knowledge": [
+    {
+      "title": "BetModal basics",
+      "url": "https://betmodal.com/#how-it-works",
+      "content": "BetModal is a price prediction game for adults 18+. In each 60-second round you predict whether an asset's price goes UP or DOWN. Markets include crypto, forex, stocks and commodities (50+ markets) with live price feeds from sources such as Binance and Polygon. Features: copy trading, leaderboards, achievements and tournaments. Free to play: new accounts receive 10,000 Gold Coins. Sweepstakes Cash can be redeemed for prizes. No purchase necessary. A Gems Shop is also available."
+    }
+  ]
+}

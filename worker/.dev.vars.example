@@ -1,0 +1,31 @@
+# Copy to .dev.vars for `wrangler dev`. In production set each with:
+#   npx wrangler secret put NAME
+# Only ADMIN_TOKEN and SIGNING_SECRET are required. Every AI provider is optional;
+# the bot uses the first configured provider in DEFAULT_PROVIDER + FALLBACK_PROVIDERS.
+
+# Required
+ADMIN_TOKEN=change-me-to-a-long-random-string
+SIGNING_SECRET=change-me-to-another-long-random-string
+
+# AI providers (any subset)
+ANTHROPIC_API_KEY=
+GEMINI_API_KEY=
+XAI_API_KEY=
+OPENAI_API_KEY=
+
+# Cloudflare extras
+# AI Gateway auth token (only if your gateway is "authenticated")
+AI_GATEWAY_TOKEN=
+# API token with "Browser Rendering - Edit" permission, for crawling JavaScript-heavy sites
+CF_API_TOKEN=
+# Turnstile secret key (bot protection for the widget)
+TURNSTILE_SECRET=
+
+# Supabase mirror (optional): conversations, messages and customers are upserted here
+SUPABASE_URL=
+SUPABASE_SERVICE_KEY=
+
+# Email via Resend (optional): handoff alerts and transcripts
+RESEND_API_KEY=
+RESEND_FROM=Support <support@yourdomain.com>
+ALERT_EMAIL=

@@ -1,0 +1,89 @@
+# AWebChatbot - Cloudflare Worker configuration
+# Run ../scripts/bootstrap.sh once: it creates the D1 database, KV namespace,
+# R2 bucket, Vectorize index and Queues, then writes their IDs into this file.
+
+name = "awebchatbot"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+[observability]
+enabled = true
+
+# Widget script (/widget.js) and the shared inbox (/inbox/) are static assets.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+html_handling = "auto-trailing-slash"
+not_found_handling = "none"
+
+[vars]
+PUBLIC_BASE_URL = ""
+DEFAULT_PROVIDER = "anthropic"
+FALLBACK_PROVIDERS = "gemini,xai,workers-ai"
+ANTHROPIC_MODEL = "claude-haiku-5-5"
+GEMINI_MODEL = "gemini-3.6-flash"
+XAI_MODEL = "grok-4.6"
+OPENAI_MODEL = "gpt-5-mini"
+WORKERS_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+EMBEDDING_MODEL = "@cf/baai/bge-base-en-v1.5"
+CF_ACCOUNT_ID = ""
+AI_GATEWAY_ID = ""
+AUTO_CLOSE_HOURS = "24"
+MAX_CRAWL_PAGES = "150"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "awebchatbot"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "00000000000000000000000000000000"
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "awebchatbot-files"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "awebchatbot-kb"
+
+[ai]
+binding = "AI"
+
+[[queues.producers]]
+binding = "CRAWL_QUEUE"
+queue = "awebchatbot-crawl"
+
+[[queues.consumers]]
+queue = "awebchatbot-crawl"
+max_batch_size = 5
+max_batch_timeout = 5
+max_retries = 3
+dead_letter_queue = "awebchatbot-crawl-dlq"
+
+[[durable_objects.bindings]]
+name = "ROOMS"
+class_name = "Room"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Room"]
+
+[[analytics_engine_datasets]]
+binding = "ANALYTICS"
+dataset = "awebchatbot_events"
+
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "4201"
+
+  [ratelimits.simple]
+  limit = 20
+  period = 60
+
+[triggers]
+crons = ["*/15 * * * *", "0 9 * * *"]

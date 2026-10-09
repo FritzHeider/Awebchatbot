@@ -1,0 +1,17 @@
+<!--
+  AWebChatbot — plain HTML install. Paste before </body> on every page (or in your shared footer).
+  Replace the URL with your Worker URL and data-key with the widget key for this website.
+-->
+<script src="https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js" data-key="pk_YOUR_WIDGET_KEY" async></script>
+
+<!-- Optional: identify signed-in users so the inbox shows who they are -->
+<script>
+  window.addEventListener('awebchatbot:ready', function () {
+    // window.AWebChatbot.identify({ name: 'Jane Doe', email: 'jane@example.com', attributes: { plan: 'pro' } });
+  });
+</script>
+
+<!-- Optional: open the chat from your own button -->
+<button type="button" onclick="window.AWebChatbot && window.AWebChatbot.open()">Chat with us</button>
+
+<!-- Optional: deep link — any URL with ?chat=open opens the chat automatically. -->

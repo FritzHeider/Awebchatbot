@@ -1,0 +1,63 @@
+{
+  "url": "https://robomodal.com",
+  "name": "Robomodal",
+  "maxPages": 150,
+  "settings": {
+    "botName": "Robomodal Assistant",
+    "brandColor": "#2563eb",
+    "theme": "auto",
+    "launcherText": "Talk to Robomodal",
+    "greeting": "Hi! I'm the Robomodal assistant. Ask about our supervised humanoid robots, pilots for venues and events, safety, or investing.",
+    "quickReplies": ["How do pilots work?", "Is it safe?", "I'm an investor", "Book a venue pilot"],
+    "persona": "Robomodal is building a deployment platform for supervised humanoid robots in public spaces, starting in San Francisco, with a San Jose track planned. It handles permits, safety, telemetry, insurance and daily operations. The initial offering is a humanoid interface paired with a rolling smart cooler for retail, with tap-to-pay and QR payments, telemetry, speed limits, an e-stop and remote shutdown. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, and service modules such as charging and ticket scanning. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot that requires a negotiated agreement with the city. The company is raising a $200k-$400k pre-seed. Audiences: prospective investors, venue and event partners, and city stakeholders. Tone: confident, safety-first; always emphasise that robots are supervised and insured.",
+    "guardrails": [
+      "All financial figures (unit costs, break-even targets such as $350-$500/day, raise size) are forward-looking targets; the company has no operating history. Say so whenever you mention numbers.",
+      "Do not give investment, legal or securities advice, and do not promise returns. Route investor interest to the founders with [[HANDOFF]] after collecting an email.",
+      "Do not claim permits, city agreements, partners or deployments exist unless they are in the knowledge.",
+      "For safety questions, describe the supervision, e-stop, remote shutdown, speed limits and insurance described in the knowledge, and offer to connect the visitor with the team for details."
+    ],
+    "disclaimer": "Figures are forward-looking targets, not results.",
+    "handoffKeywords": ["human", "founder", "invest", "investor", "partner", "venue", "press", "city", "talk to someone"],
+    "temperature": 0.3,
+    "maxTokens": 650,
+    "showSources": true,
+    "collectEmailBeforeChat": false,
+    "recrawlDaily": true
+  },
+  "flow": {
+    "name": "Robomodal welcome",
+    "start": "hello",
+    "activate": true,
+    "steps": [
+      { "key": "hello", "type": "message", "content": "Welcome to **Robomodal** — supervised, insured humanoid robots for public spaces, starting in San Francisco.", "next": "menu" },
+      {
+        "key": "menu",
+        "type": "buttons",
+        "content": "What brings you here?",
+        "variable": "audience",
+        "options": [
+          { "label": "I'm an investor", "next": "inv_email" },
+          { "label": "Venue / event partner", "next": "venue_email" },
+          { "label": "City / press", "next": "press_email" },
+          { "label": "Just curious", "next": "ai" }
+        ]
+      },
+      { "key": "inv_email", "type": "collect_email", "content": "Thanks for your interest in the pre-seed round. What's the best email for the founders to reach you?", "next": "inv_q" },
+      { "key": "inv_q", "type": "question", "content": "Anything you'd like the founders to know (fund, typical check size, questions)?", "variable": "investor_note", "next": "inv_handoff" },
+      { "key": "inv_handoff", "type": "handoff", "content": "Thanks {{email}} — passing this to the founders now. Note: any figures on the site are forward-looking targets." },
+      { "key": "venue_email", "type": "collect_email", "content": "We'd love to talk pilots. What's your email?", "next": "venue_q" },
+      { "key": "venue_q", "type": "question", "content": "Tell us about the venue or event: location, dates and expected foot traffic.", "variable": "venue_details", "next": "venue_handoff" },
+      { "key": "venue_handoff", "type": "handoff", "content": "Got it! Our team will follow up at {{email}} about a private-property or event pilot." },
+      { "key": "press_email", "type": "collect_email", "content": "Happy to help. What's your email?", "next": "press_handoff" },
+      { "key": "press_handoff", "type": "handoff", "content": "Thanks {{email}} — connecting you with the team." },
+      { "key": "ai", "type": "ai", "content": "Ask me anything — how the robots work, safety, the roadmap or where we're launching." }
+    ]
+  },
+  "knowledge": [
+    {
+      "title": "Robomodal overview",
+      "url": "https://robomodal.com/#overview",
+      "content": "Robomodal deploys supervised humanoid robots in public spaces, starting in San Francisco (San Jose track planned). The platform handles permits, safety, telemetry, insurance and daily operations. First product: a humanoid interface with a rolling smart cooler for retail, supporting tap-to-pay and QR payments, with telemetry, speed limits, an emergency stop (e-stop) and remote shutdown. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot requiring a negotiated agreement with the city. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, charging and ticket-scanning modules. Robomodal is raising a $200k-$400k pre-seed. Per-unit economics on the site (for example break-even targets of $350-$500 per day) are forward-looking targets; the company has no operating history."
+    }
+  ]
+}

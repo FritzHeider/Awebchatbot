@@ -1,0 +1,28 @@
+{% comment %}
+  AWebChatbot for Shopify.
+  1. Online Store → Themes → … → Edit code → Snippets → Add a new snippet named "awebchatbot", paste this file.
+  2. Open layout/theme.liquid and add  {% render 'awebchatbot' %}  just above </body>.
+  3. Replace the two values below with your Worker URL and widget key.
+{% endcomment %}
+{%- assign awc_base = 'https://awebchatbot.YOUR-SUBDOMAIN.workers.dev' -%}
+{%- assign awc_key = 'pk_YOUR_WIDGET_KEY' -%}
+
+<script src="{{ awc_base }}/widget.js" data-key="{{ awc_key }}" async></script>
+<script>
+  window.addEventListener('awebchatbot:ready', function () {
+    {%- if customer %}
+    window.AWebChatbot.identify({
+      name: {{ customer.name | json }},
+      email: {{ customer.email | json }},
+      attributes: {
+        shopify_customer_id: {{ customer.id | json }},
+        orders_count: {{ customer.orders_count | json }},
+        total_spent: {{ customer.total_spent | money_without_currency | json }}
+      }
+    });
+    {%- endif %}
+    {%- if cart.item_count > 0 %}
+    window.AWebChatbot.identify({ attributes: { cart_items: {{ cart.item_count | json }}, cart_total: {{ cart.total_price | money_without_currency | json }} } });
+    {%- endif %}
+  });
+</script>

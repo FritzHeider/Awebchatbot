@@ -1,0 +1,40 @@
+# Injects the AWebChatbot widget into every HTML page of a Cloudflare-proxied site — no site code changes.
+# 1. Set WIDGET_SRC and WIDGET_KEY below (get the key from the inbox Settings page or get_widget_install_code).
+# 2. Uncomment the route for your zone.
+# 3. npx wrangler deploy
+# Make one copy of this folder (or one [env.x] block) per website.
+
+name = "awebchatbot-injector"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+# routes = [
+#   { pattern = "robomodal.com/*", zone_name = "robomodal.com" },
+#   { pattern = "www.robomodal.com/*", zone_name = "robomodal.com" },
+# ]
+
+[vars]
+WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js"
+WIDGET_KEY = "pk_REPLACE_WITH_YOUR_WIDGET_KEY"
+EXCLUDE_PATHS = "/admin,/wp-admin,/checkout"
+
+# Per-site environments: npx wrangler deploy --env breachmodal
+[env.breachmodal]
+name = "awebchatbot-injector-breachmodal"
+routes = [{ pattern = "breachmodal.com/*", zone_name = "breachmodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_BREACHMODAL_KEY", EXCLUDE_PATHS = "/app,/admin" }
+
+[env.isshereal]
+name = "awebchatbot-injector-isshereal"
+routes = [{ pattern = "isshereal.com/*", zone_name = "isshereal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_ISSHEREAL_KEY", EXCLUDE_PATHS = "/admin" }
+
+[env.betmodal]
+name = "awebchatbot-injector-betmodal"
+routes = [{ pattern = "betmodal.com/*", zone_name = "betmodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_BETMODAL_KEY", EXCLUDE_PATHS = "/admin,/play" }
+
+[env.robomodal]
+name = "awebchatbot-injector-robomodal"
+routes = [{ pattern = "robomodal.com/*", zone_name = "robomodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_ROBOMODAL_KEY", EXCLUDE_PATHS = "/admin" }

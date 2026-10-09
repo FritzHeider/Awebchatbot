@@ -1,0 +1,52 @@
+# Node / Cloudflare Worker
+node_modules/
+.wrangler/
+.mf/
+dist/
+install/
+coverage/
+*.log
+npm-debug.log*
+
+# Generated wrangler configs (scripts/offline-config.mjs etc.)
+.wrangler-offline.toml
+.wrangler-smoke.toml
+
+# Secrets — never commit
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+.env
+.env.*
+!.env.example
+.awebchatbot-secrets
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+
+# Local scratch / archives
+_to_delete/
+*.tgz
+*.tar.gz
+*.zip
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+*.swp

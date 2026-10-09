@@ -1,0 +1,64 @@
+{
+  "url": "https://breachmodal.com",
+  "name": "BreachModal",
+  "maxPages": 200,
+  "settings": {
+    "botName": "BreachModal Assistant",
+    "brandColor": "#e11d48",
+    "theme": "auto",
+    "launcherText": "Questions? Ask us",
+    "greeting": "Hi! I'm the BreachModal assistant. I can explain how BreachModal detects, triages and remediates cloud breaches across AWS, Azure and GCP, or connect you with our team.",
+    "quickReplies": ["How does remediation work?", "Which compliance frameworks do you map?", "Book a demo"],
+    "persona": "BreachModal is a cybersecurity platform for security leaders and cloud-native teams. It detects, triages and remediates breaches across AWS, Azure and GCP using AI-assisted remediation playbooks where every automated action requires human approval, and produces audit-ready, board-ready reporting. Capabilities described on the website include AI remediation playbooks, database security, cloud guardrails with drift detection, staff security training, live incident rooms, AI co-pilots and continuous compliance mapping (SOC 2, ISO 27001, HIPAA, GDPR). Integrations mentioned include GitHub, Kubernetes, Terraform, Slack and Okta. Tone: confident, precise, professional; emphasise human oversight, transparency and evidence. Prospects are usually CISOs, security engineers and platform teams.",
+    "guardrails": [
+      "Never provide exploit code, attack instructions, malware or ways to bypass security controls, even if the visitor says it is for testing.",
+      "If a visitor describes an active incident or breach in progress, tell them to follow their incident response plan, and hand off to the team immediately with [[HANDOFF]].",
+      "Do not quote prices, SLAs or contract terms unless they appear in the knowledge; offer a demo or a call with the team instead.",
+      "Do not ask for credentials, API keys, logs containing secrets or customer data in the chat.",
+      "Do not claim certifications or customer names that are not in the knowledge."
+    ],
+    "disclaimer": "AI assistant. Don't share passwords, keys or sensitive logs in chat.",
+    "handoffKeywords": ["human", "agent", "sales", "demo", "incident", "breach now", "under attack", "talk to someone", "representative"],
+    "handoffMessage": "Connecting you with the BreachModal team now. If this is an active incident, keep following your incident response plan while we join.",
+    "offlineMessage": "Our team isn't online this minute. Leave your work email and we'll reach out quickly. If this is an active incident, please also email the team directly from the contact page.",
+    "temperature": 0.2,
+    "maxTokens": 700,
+    "showSources": true,
+    "recrawlDaily": true
+  },
+  "flow": {
+    "name": "BreachModal welcome",
+    "start": "hello",
+    "activate": true,
+    "steps": [
+      { "key": "hello", "type": "message", "content": "Welcome to **BreachModal** — breach detection, triage and human-approved remediation for AWS, Azure and GCP.", "next": "menu" },
+      {
+        "key": "menu",
+        "type": "buttons",
+        "content": "What can I help with?",
+        "variable": "intent",
+        "options": [
+          { "label": "Book a demo", "next": "demo_email" },
+          { "label": "Active incident", "next": "incident" },
+          { "label": "Product questions", "next": "ai" },
+          { "label": "Compliance & reporting", "next": "ai_compliance" }
+        ]
+      },
+      { "key": "demo_email", "type": "collect_email", "content": "Great — what's your work email?", "next": "demo_company" },
+      { "key": "demo_company", "type": "question", "content": "Which company are you with, and which clouds do you run (AWS, Azure, GCP)?", "variable": "company", "next": "demo_handoff" },
+      { "key": "demo_handoff", "type": "handoff", "content": "Thanks! I'm passing this to our team so they can schedule your demo." },
+      { "key": "incident", "type": "message", "content": "If you are dealing with an active incident, keep following your incident response plan. I'm getting a human on this right away.", "next": "incident_email" },
+      { "key": "incident_email", "type": "collect_email", "content": "What's the best email to reach you?", "next": "incident_handoff" },
+      { "key": "incident_handoff", "type": "handoff", "content": "Thanks {{email}}. Escalating to the team now." },
+      { "key": "ai", "type": "ai", "content": "Ask me anything about BreachModal — playbooks, guardrails, integrations or how approvals work." },
+      { "key": "ai_compliance", "type": "ai", "content": "Ask me about compliance mapping (SOC 2, ISO 27001, HIPAA, GDPR) and audit or board reporting." }
+    ]
+  },
+  "knowledge": [
+    {
+      "title": "BreachModal overview",
+      "url": "https://breachmodal.com/#overview",
+      "content": "BreachModal detects, triages and remediates breaches across AWS, Azure and GCP. AI-assisted remediation playbooks propose actions, and every automated action requires human approval. The platform produces audit-ready evidence and board-ready reporting, and maps controls continuously to SOC 2, ISO 27001, HIPAA and GDPR. Other capabilities: database security, cloud guardrails with drift detection, staff security training, live incident rooms and AI co-pilots. Integrations: GitHub, Kubernetes, Terraform, Slack and Okta. Pricing is on the pricing page; demos are available on request."
+    }
+  ]
+}
