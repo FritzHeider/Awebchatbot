@@ -120,6 +120,18 @@ export function normalizeTurns(turns: ChatTurn[]): ChatTurn[] {
   return out;
 }
 
+/**
+ * Claude 4.7 and later (Opus 4.7+, Sonnet 5+, Haiku 5.5, Fable) reject a non-default `temperature` with a 400.
+ * Only Claude 3.x and 4.0–4.6 accept it; unknown or newer models get the API default.
+ */
+export function anthropicAcceptsTemperature(model: string): boolean {
+  const m = model.match(/claude-(?:[a-z]+-)?(\d+)(?:-(\d)(?!\d))?/);
+  if (!m) return false;
+  const major = Number(m[1]);
+  const minor = Number(m[2] ?? 0);
+  return major < 4 || (major === 4 && minor <= 6);
+}
+
 async function* streamAnthropic(env: Env, req: GenerateRequest, model: string, usage: Usage): AsyncGenerator<string> {
   const base = gatewayBase(env, 'anthropic') || 'https://api.anthropic.com';
   const res = await postJson(
@@ -131,7 +143,7 @@ async function* streamAnthropic(env: Env, req: GenerateRequest, model: string, u
       system: req.system,
       messages: req.messages,
       max_tokens: req.maxTokens,
-      temperature: req.temperature,
+      ...(anthropicAcceptsTemperature(model) ? { temperature: req.temperature } : {}),
       stream: true,
     },
   );

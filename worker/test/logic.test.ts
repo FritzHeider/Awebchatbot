@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { MarkerFilter, HANDOFF_MARKER } from '../src/ai/marker';
-import { normalizeTurns } from '../src/ai/providers';
+import { anthropicAcceptsTemperature, normalizeTurns } from '../src/ai/providers';
 import { parseSse } from '../src/ai/sse';
 import { wantsHuman } from '../src/chat';
 import { decodeEntities, normalizeLink } from '../src/crawler';
@@ -70,6 +70,17 @@ describe('normalizeTurns', () => {
       { role: 'user', content: 'a\n\nb' },
       { role: 'assistant', content: 'c' },
     ]);
+  });
+});
+
+describe('anthropicAcceptsTemperature', () => {
+  it('sends temperature only to models that still accept it', () => {
+    for (const m of ['claude-3-5-sonnet-20241022', 'claude-sonnet-4-20250514', 'claude-haiku-4-5', 'claude-opus-4-6', 'claude-sonnet-4-6']) {
+      expect(anthropicAcceptsTemperature(m), m).toBe(true);
+    }
+    for (const m of ['claude-opus-4-7', 'claude-opus-4-8', 'claude-opus-5-5', 'claude-sonnet-5', 'claude-sonnet-5-5', 'claude-haiku-5-5', 'claude-fable-5-1', 'gpt-5-mini']) {
+      expect(anthropicAcceptsTemperature(m), m).toBe(false);
+    }
   });
 });
 
