@@ -390,13 +390,32 @@ export async function handleVisitorMessage(
   }
 }
 
+// Words that name a person. A keyword made only of these ("human", "real person", "support team") is too common in
+// ordinary questions ("does it need human approval?", "is this person real?") to trigger a handoff on its own.
+const PERSON_WORDS = new Set([
+  'human', 'person', 'agent', 'someone', 'somebody', 'representative', 'rep', 'operator', 'staff',
+  'team', 'support', 'member', 'real', 'live', 'actual',
+]);
+const PERSON_NOUNS = 'human|person|agent|someone|somebody|representative|rep|operator|staff|support team|team member';
+const FILLERS = new Set(['please', 'pls', 'plz', 'now', 'hi', 'hello', 'hey', 'a', 'an', 'the']);
+const ASKS_FOR_PERSON = [
+  new RegExp(`\\b(talk|speak|chat|connect|transfer|escalate)(\\s+me)?\\s+(to|with)\\s+((a|an|the|your|some)\\s+)?((real|live|actual)\\s+)?(${PERSON_NOUNS})\\b`),
+  new RegExp(`\\b(need|want|get me|give me)\\s+(a|an|some)\\s+((real|live|actual)\\s+)?(${PERSON_NOUNS})\\b`),
+];
+
 export function wantsHuman(text: string, keywords: string[]): boolean {
   const t = ` ${text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ')} `;
-  if (t.trim().split(/\s+/).length > 12) {
-    // Long messages only count when they clearly ask for a person.
-    return /\b(talk|speak|chat|connect)\s+(to|with)\s+(a\s+)?(human|person|agent|someone|representative)\b/.test(t);
-  }
-  return keywords.some((k) => k.trim() && t.includes(` ${k.toLowerCase().trim()} `));
+  const words = t.trim().split(/\s+/);
+  if (ASKS_FOR_PERSON.some((re) => re.test(t))) return true;
+  // Long messages only count when they clearly ask for a person.
+  if (words.length > 12) return false;
+  // A bare request like "human", "agent please" or "real person".
+  if (words.every((w) => PERSON_WORDS.has(w) || FILLERS.has(w)) && words.some((w) => PERSON_WORDS.has(w))) return true;
+  return keywords.some((k) => {
+    const kw = k.toLowerCase().trim();
+    if (!kw || kw.split(/\s+/).every((w) => PERSON_WORDS.has(w))) return false;
+    return t.includes(` ${kw} `);
+  });
 }
 
 async function applyFlowVariables(env: Env, waitUntil: WaitUntil, ws: Workspace, conv: ConversationRow, vars: Record<string, string>) {

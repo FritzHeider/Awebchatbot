@@ -3,7 +3,7 @@ import { MarkerFilter, HANDOFF_MARKER } from '../src/ai/marker';
 import { normalizeTurns } from '../src/ai/providers';
 import { parseSse } from '../src/ai/sse';
 import { wantsHuman } from '../src/chat';
-import { normalizeLink } from '../src/crawler';
+import { decodeEntities, normalizeLink } from '../src/crawler';
 import { installCode, PLATFORMS } from '../src/install';
 import { chunkText, extractiveAnswer, ftsQuery } from '../src/rag';
 import { runFlow, validateFlow, type FlowStep } from '../src/scenario';
@@ -105,6 +105,38 @@ describe('wantsHuman', () => {
   });
   it('still catches long messages that clearly ask for a person', () => {
     expect(wantsHuman('I have tried everything on the site and nothing works so please let me speak to a human now', keywords)).toBe(true);
+  });
+  it('catches bare and explicit requests for a person', () => {
+    for (const text of ['agent', 'Real person please', 'I need a human', 'connect me with your support team', 'talk to someone']) {
+      expect(wantsHuman(text, keywords), text).toBe(true);
+    }
+  });
+  it('ignores person words used in ordinary questions', () => {
+    const site = [...keywords, 'person', 'support', 'incident'];
+    for (const text of [
+      'Does every automated action need human approval?',
+      'Is this person real?',
+      'Is this a real person?',
+      'Does it support Solana?',
+      'Which agent frameworks do you integrate with?',
+    ]) {
+      expect(wantsHuman(text, site), text).toBe(false);
+    }
+  });
+  it('still matches site-specific keywords anywhere in short messages', () => {
+    expect(wantsHuman('I got scammed and lost money', ['lost money'])).toBe(true);
+    expect(wantsHuman('We are under attack', ['under attack'])).toBe(true);
+  });
+});
+
+describe('decodeEntities', () => {
+  it('decodes named, decimal and hex entities', () => {
+    expect(decodeEntities('No &#x27;platform fees&#x27; &amp; no &quot;setup&quot;&nbsp;&#8212; &#39;ok&#39;')).toBe(
+      'No \'platform fees\' & no "setup" \u2014 \'ok\'',
+    );
+  });
+  it('decodes in a single pass and leaves unknown entities alone', () => {
+    expect(decodeEntities('&amp;lt;b&amp;gt; &copy; &#x110000;')).toBe('&lt;b&gt; &copy; &#x110000;');
   });
 });
 

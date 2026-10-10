@@ -16,6 +16,17 @@ export interface ExtractedPage {
   noindex: boolean;
 }
 
+const NAMED_ENTITIES: Record<string, string> = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'" };
+
+/** Decode HTML entities in one pass, so "&amp;lt;" becomes "&lt;" rather than "<". Handles decimal and hex. */
+export function decodeEntities(s: string): string {
+  return s.replace(/&(?:#(\d+)|#[xX]([0-9a-fA-F]+)|([a-zA-Z]+));/g, (m, dec, hex, name) => {
+    const code = dec ? Number(dec) : hex ? parseInt(hex, 16) : -1;
+    if (code >= 0) return code <= 0x10ffff ? String.fromCodePoint(code) : m;
+    return NAMED_ENTITIES[name.toLowerCase()] ?? m;
+  });
+}
+
 /** Extract readable text, title and links from HTML with the streaming HTMLRewriter. */
 export async function extractPage(html: string | Response): Promise<ExtractedPage> {
   const parts: string[] = [];
@@ -87,19 +98,9 @@ export async function extractPage(html: string | Response): Promise<ExtractedPag
   const response = typeof html === 'string' ? new Response(html, { headers: { 'content-type': 'text/html' } }) : html;
   await rewriter.transform(response).arrayBuffer();
 
-  const decode = (s: string) =>
-    s
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#39;|&apos;/g, "'")
-      .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
-
   // The <title> text also flows through the document text handler; drop it from the body text.
-  const rawText = decode(parts.join(''));
-  const titleText = decode(title).trim();
+  const rawText = decodeEntities(parts.join(''));
+  const titleText = decodeEntities(title).trim();
   let text = rawText
     .split('\n')
     .map((l) => l.replace(/[ \t]+/g, ' ').trim())
@@ -109,7 +110,7 @@ export async function extractPage(html: string | Response): Promise<ExtractedPag
   if (titleText && text.startsWith(titleText)) text = text.slice(titleText.length).trim();
   text = text.replace(/^(- \n)+/gm, '').replace(/\n{3,}/g, '\n\n');
 
-  return { title: titleText, description: decode(description).trim(), text, links, noindex };
+  return { title: titleText, description: decodeEntities(description).trim(), text, links, noindex };
 }
 
 export function normalizeLink(href: string, pageUrl: string, rootHost: string): string | null {

@@ -125,7 +125,7 @@ Generic webhooks send JSON with header `X-AWebChatbot-Signature: sha256=<hex HMA
 | temperature | 0–1 | 0.3 |
 | maxTokens | 100–4000 | 700 |
 | handoffEnabled | bool | true |
-| handoffKeywords | string[] | human, agent, … |
+| handoffKeywords | string[] | human, agent, … — matched in messages of ≤ 12 words. Keywords made only of person words (human, agent, real person, support team…) count only as a bare request ("agent please") or an explicit ask ("talk to a human", "I need an agent"), which also triggers in longer messages |
 | handoffMessage, offlineMessage | string | |
 | alertEmail | string | "" |
 | autoCloseHours | 1–720 | 24 |

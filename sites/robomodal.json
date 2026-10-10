@@ -17,7 +17,7 @@
       "For safety questions, describe the supervision, e-stop, remote shutdown, speed limits and insurance described in the knowledge, and offer to connect the visitor with the team for details."
     ],
     "disclaimer": "Figures are forward-looking targets, not results.",
-    "handoffKeywords": ["human", "founder", "invest", "investor", "partner", "venue", "press", "city", "talk to someone"],
+    "handoffKeywords": ["human", "founder", "investor", "partner", "venue", "press", "talk to someone"],
     "temperature": 0.3,
     "maxTokens": 650,
     "showSources": true,

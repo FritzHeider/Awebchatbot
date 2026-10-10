@@ -18,7 +18,7 @@
       "Do not claim certifications or customer names that are not in the knowledge."
     ],
     "disclaimer": "AI assistant. Don't share passwords, keys or sensitive logs in chat.",
-    "handoffKeywords": ["human", "agent", "sales", "demo", "incident", "breach now", "under attack", "talk to someone", "representative"],
+    "handoffKeywords": ["human", "agent", "sales", "demo", "active incident", "breach now", "under attack", "talk to someone", "representative"],
     "handoffMessage": "Connecting you with the BreachModal team now. If this is an active incident, keep following your incident response plan while we join.",
     "offlineMessage": "Our team isn't online this minute. Leave your work email and we'll reach out quickly. If this is an active incident, please also email the team directly from the contact page.",
     "temperature": 0.2,

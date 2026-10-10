@@ -18,7 +18,7 @@
       "Do not state that a specific named person is a scammer; talk about signals the tool found instead."
     ],
     "disclaimer": "Results are signals, not proof. Never share passwords.",
-    "handoffKeywords": ["human", "agent", "person", "support", "scammed", "lost money", "talk to someone"],
+    "handoffKeywords": ["human", "agent", "scammed", "lost money", "talk to someone"],
     "temperature": 0.3,
     "maxTokens": 650,
     "showSources": true,

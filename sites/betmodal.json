@@ -18,7 +18,7 @@
       "Never ask for passwords, full card numbers or ID numbers in chat; account and payment issues go to a human with [[HANDOFF]]."
     ],
     "disclaimer": "18+ only. Play responsibly. No purchase necessary.",
-    "handoffKeywords": ["human", "agent", "support", "refund", "chargeback", "withdraw", "redeem failed", "locked", "banned", "verify", "talk to someone"],
+    "handoffKeywords": ["human", "agent", "refund", "chargeback", "withdraw", "redeem failed", "locked", "banned", "talk to someone"],
     "temperature": 0.3,
     "maxTokens": 600,
     "showSources": true,
