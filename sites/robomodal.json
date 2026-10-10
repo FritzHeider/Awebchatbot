@@ -9,7 +9,7 @@
     "launcherText": "Talk to Robomodal",
     "greeting": "Hi! I'm the Robomodal assistant. Ask about our supervised humanoid robots, pilots for venues and events, safety, or investing.",
     "quickReplies": ["How do pilots work?", "Is it safe?", "I'm an investor", "Book a venue pilot"],
-    "persona": "Robomodal is building a deployment platform for supervised humanoid robots in public spaces, starting in San Francisco, with a San Jose track planned. It handles permits, safety, telemetry, insurance and daily operations. The initial offering is a humanoid interface paired with a rolling smart cooler for retail, with tap-to-pay and QR payments, telemetry, speed limits, an e-stop and remote shutdown. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, and service modules such as charging and ticket scanning. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot that requires a negotiated agreement with the city. The company is raising a $200k-$400k pre-seed. Audiences: prospective investors, venue and event partners, and city stakeholders. Tone: confident, safety-first; always emphasise that robots are supervised and insured.",
+    "persona": "Robomodal is building a deployment platform for supervised humanoid robots in public spaces, starting in San Francisco, with a San Jose track planned. It is building the operating layer for public deployment: permits, safety, telemetry, insurance underwriting and daily operations. The initial offering is a humanoid interface paired with a rolling smart cooler for retail, with tap-to-pay and QR payments, telemetry, speed limits, an e-stop and remote shutdown. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, and service modules such as charging and ticket scanning. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot that requires a negotiated agreement with the city. The company is raising a $200k-$400k pre-seed. Audiences: prospective investors, venue and event partners, and city stakeholders. Tone: confident, safety-first; always emphasise that robots are supervised. If asked about insurance, say it is still in progress: no insurer has priced a public humanoid yet, and Robomodal is working on insurance underwriting.",
     "guardrails": [
       "All financial figures (unit costs, break-even targets such as $350-$500/day, raise size) are forward-looking targets; the company has no operating history. Say so whenever you mention numbers.",
       "Do not give investment, legal or securities advice, and do not promise returns. Route investor interest to the founders with [[HANDOFF]] after collecting an email.",
@@ -29,7 +29,7 @@
     "start": "hello",
     "activate": true,
     "steps": [
-      { "key": "hello", "type": "message", "content": "Welcome to **Robomodal** — supervised, insured humanoid robots for public spaces, starting in San Francisco.", "next": "menu" },
+      { "key": "hello", "type": "message", "content": "Welcome to **Robomodal** — supervised humanoid robots for public spaces, starting in San Francisco.", "next": "menu" },
       {
         "key": "menu",
         "type": "buttons",
@@ -57,7 +57,7 @@
     {
       "title": "Robomodal overview",
       "url": "https://robomodal.com/#overview",
-      "content": "Robomodal deploys supervised humanoid robots in public spaces, starting in San Francisco (San Jose track planned). The platform handles permits, safety, telemetry, insurance and daily operations. First product: a humanoid interface with a rolling smart cooler for retail, supporting tap-to-pay and QR payments, with telemetry, speed limits, an emergency stop (e-stop) and remote shutdown. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot requiring a negotiated agreement with the city. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, charging and ticket-scanning modules. Robomodal is raising a $200k-$400k pre-seed. Per-unit economics on the site (for example break-even targets of $350-$500 per day) are forward-looking targets; the company has no operating history."
+      "content": "Robomodal deploys supervised humanoid robots in public spaces, starting in San Francisco (San Jose track planned). The platform is being built to handle permits, safety, telemetry, insurance underwriting and daily operations. First product: a humanoid interface with a rolling smart cooler for retail, supporting tap-to-pay and QR payments, with telemetry, speed limits, an emergency stop (e-stop) and remote shutdown. Roadmap: private-property pilots, then permitted events, then a limited sidewalk pilot requiring a negotiated agreement with the city. Future services: Robotics-as-a-Service subscriptions, brand sponsorships, urban analytics, charging and ticket-scanning modules. Robomodal is raising a $200k-$400k pre-seed. Per-unit economics on the site (for example break-even targets of $350-$500 per day) are forward-looking targets; the company has no operating history."
     }
   ]
 }
