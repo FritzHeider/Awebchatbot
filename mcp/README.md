@@ -9,7 +9,7 @@ knowledge base and build chatbot flows without leaving Claude.
 | Area | Tools |
 | --- | --- |
 | Website setup | `list_workspaces`, `add_chatbot_to_website`, `get_setup_status`, `get_widget_install_code`, `get_chatbot_settings`, `update_chatbot_settings`, `test_chatbot`, `get_platform_status` |
-| Support inbox | `list_conversations`, `get_conversation`, `reply_to_conversation` (preview first, `confirmed=True` to send), `add_internal_note`, `suggest_reply`, `summarize_conversation`, `export_conversation_transcript`, `assign_conversation`, `close_conversation`, `reopen_conversation`, `return_conversation_to_bot`, `get_inbox_stats` |
+| Support inbox | `list_conversations`, `get_conversation`, `reply_to_conversation` (preview first, `confirmed=True` to send), `add_internal_note`, `suggest_reply`, `summarize_conversation`, `export_conversation_transcript`, `assign_conversation`, `close_conversation` (preview first, `confirmed=True` to close), `reopen_conversation`, `return_conversation_to_bot`, `get_inbox_stats` |
 | Customers | `search_customers`, `get_customer`, `update_customer` |
 | Knowledge base | `search_knowledge_base`, `list_knowledge_documents`, `add_knowledge_document`, `delete_knowledge_document`, `crawl_website` |
 | Chatbot flows | `list_scenarios`, `get_scenario`, `create_scenario`, `import_scenario`, `rename_scenario`, `add_scenario_step`, `update_scenario_step`, `delete_scenario_step`, `set_scenario_start_step`, `activate_scenario`, `deactivate_scenario`, `delete_scenario` |

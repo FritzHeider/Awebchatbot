@@ -109,6 +109,17 @@ async def test_reply_requires_confirmation(mock):
     assert mock.calls[0][3] == {"content": "Hello there"}
 
 
+@pytest.mark.parametrize("mock", [{("POST", "/admin/conversations/conv_1/close"): (200, {"conversation": {"id": "conv_1", "status": "closed"}})}], indirect=True)
+async def test_close_requires_confirmation(mock):
+    preview = await server.close_conversation("conv_1")
+    assert preview["closed"] is False
+    assert mock.calls == []
+    closed = await server.close_conversation("conv_1", confirmed=True)
+    assert closed["closed"] is True
+    assert closed["conversation"]["status"] == "closed"
+    assert [c[:2] for c in mock.calls] == [("POST", "/admin/conversations/conv_1/close")]
+
+
 @pytest.mark.parametrize("mock", [{("GET", "/admin/workspaces/ws_1/conversations"): (200, {"conversations": [], "next_before": None})}], indirect=True)
 async def test_list_conversations_passes_filters_and_drops_empty(mock):
     await server.list_conversations("ws_1", status="open", mode="human", query="refund")

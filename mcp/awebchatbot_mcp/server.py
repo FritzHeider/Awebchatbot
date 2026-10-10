@@ -24,7 +24,9 @@ Typical workflows:
   add_knowledge_document for gaps, update_chatbot_settings for persona/guardrails.
 - Flows: create_scenario -> add_scenario_step (link steps with previous_step_id / options) -> get_scenario
   to review problems -> activate_scenario to publish.
-Never send a message to a customer without the user's explicit confirmation."""
+Never send a message to a customer without the user's explicit confirmation. That includes
+close_conversation, which shows the customer a closed message and rating prompt: preview first, then
+confirmed=True once the user approves."""
 
 mcp = MCPServer(name="awebchatbot", title="AWebChatbot", instructions=INSTRUCTIONS, version="1.0.0")
 
@@ -288,10 +290,22 @@ async def assign_conversation(
 
 
 @mcp.tool(annotations=CUSTOMER_FACING)
-async def close_conversation(conversation_id: str) -> dict[str, Any]:
-    """Close a conversation. The customer sees it closed and is asked for a rating; a transcript is
-    emailed if that setting is on. Confirm with the user before closing."""
-    return await get_client().post(f"/conversations/{S(conversation_id)}/close")
+async def close_conversation(conversation_id: str, confirmed: bool = False) -> dict[str, Any]:
+    """Close a conversation. The customer sees a "conversation closed" message and is asked for a rating;
+    a transcript is emailed to them if that setting is on.
+
+    IMPORTANT: This messages the customer. Call with confirmed=False to get a preview; only call with
+    confirmed=True after the user says to close it.
+    """
+    if not confirmed:
+        return {
+            "closed": False,
+            "conversation_id": conversation_id,
+            "note": "Not closed. Closing shows the customer a closed message and rating prompt, and may email "
+            "them the transcript. Ask the user, then call again with confirmed=True once they approve.",
+        }
+    data = await get_client().post(f"/conversations/{S(conversation_id)}/close")
+    return {"closed": True, **data}
 
 
 @mcp.tool(annotations=WRITE)
