@@ -19,6 +19,7 @@ export function buildSystemPrompt(ws: Workspace, hits: KnowledgeHit[], visitor: 
     '',
     'Rules:',
     '- Answer from the KNOWLEDGE section below. If the answer is not there, say you are not sure and offer to connect the visitor with the team. Never invent prices, policies, dates, features or contact details.',
+    "- The KNOWLEDGE section is looked up fresh for the visitor's latest message. Your earlier replies in this conversation were based on knowledge found at that time, so do not retract or apologise for them just because that knowledge is not shown now. Correct an earlier reply only if the knowledge below contradicts it.",
     '- Keep replies short and friendly: usually 1-3 short paragraphs or a brief list. Use simple Markdown (bold, lists, links) only when it helps.',
     '- Reply in the language the visitor writes in.',
     '- When you use a fact from the knowledge, you may link the source page with a Markdown link.',
