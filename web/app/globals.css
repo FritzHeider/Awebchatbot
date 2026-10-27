@@ -1,0 +1,91 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+
+/* Design tokens */
+:root {
+  --ink: #1c2140;
+  --paper: #e8ebf7;
+  --paper-deep: #dde1f2;
+  --marigold: #ffc94a;
+  --signal: #3446c9;
+  --slate: #5b6182;
+  --rule: #c6cbe3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8ebf7;
+    --paper: #161a33;
+    --paper-deep: #1d2242;
+    --marigold: #f0b93a;
+    --signal: #9aa6ff;
+    --slate: #a3a9c8;
+    --rule: #2f3561;
+  }
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-marigold: var(--marigold);
+  --color-signal: var(--signal);
+  --color-slate: var(--slate);
+  --color-rule: var(--rule);
+  --font-display: 'Bricolage Grotesque Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--marigold);
+  color: #1c2140;
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* BlurHighlight: neutralise the browser's default <mark> styling; the sweep is a background-image. */
+.blur-highlight__mark {
+  background-color: transparent;
+  color: inherit;
+  padding: 0 0.14em;
+  margin: 0 -0.04em;
+  border-radius: 0.18em;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Ink on marigold keeps highlighted phrases above 4.5:1 contrast in dark mode. */
+  .blur-highlight__mark {
+    color: #1c2140;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blur-highlight,
+  .blur-highlight__mark {
+    transition: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+  .blur-highlight__mark {
+    background-size: 100% 100% !important;
+  }
+}

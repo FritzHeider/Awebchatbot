@@ -179,6 +179,7 @@ mcp/               Python MCP server (stdio + Streamable HTTP), Dockerfile, fly.
 integrations/      cloudflare-injector, wordpress, shopify, nextjs, react, nuxt, html, supabase
 sites/             presets for breachmodal, isshereal, betmodal, robomodal
 scripts/           bootstrap.sh (Cloudflare setup + deploy), provision.py (create the sites' chatbots)
+web/               Next.js landing page with the BlurHighlight component (see web/README.md)
 docs/              API reference and operations guide
 prompts/           master prompt + sub-prompts to regenerate or extend the project
 ```
