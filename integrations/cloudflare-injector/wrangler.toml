@@ -14,27 +14,27 @@ compatibility_date = "2025-09-01"
 # ]
 
 [vars]
-WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js"
+WIDGET_SRC = "https://awebchatbot.blueloke.workers.dev/widget.js"
 WIDGET_KEY = "pk_REPLACE_WITH_YOUR_WIDGET_KEY"
 EXCLUDE_PATHS = "/admin,/wp-admin,/checkout"
 
 # Per-site environments: npx wrangler deploy --env breachmodal
 [env.breachmodal]
 name = "awebchatbot-injector-breachmodal"
-routes = [{ pattern = "breachmodal.com/*", zone_name = "breachmodal.com" }]
-vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_BREACHMODAL_KEY", EXCLUDE_PATHS = "/app,/admin" }
+routes = [{ pattern = "breachmodal.com/*", zone_name = "breachmodal.com" }, { pattern = "www.breachmodal.com/*", zone_name = "breachmodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.blueloke.workers.dev/widget.js", WIDGET_KEY = "pk_cdsg6qvm9hadqfqqquemkknl", EXCLUDE_PATHS = "/app,/admin" }
 
 [env.isshereal]
 name = "awebchatbot-injector-isshereal"
-routes = [{ pattern = "isshereal.com/*", zone_name = "isshereal.com" }]
-vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_ISSHEREAL_KEY", EXCLUDE_PATHS = "/admin" }
+routes = [{ pattern = "isshereal.com/*", zone_name = "isshereal.com" }, { pattern = "www.isshereal.com/*", zone_name = "isshereal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.blueloke.workers.dev/widget.js", WIDGET_KEY = "pk_hrqmpo9kv6tlrscvsm2ka5g", EXCLUDE_PATHS = "/admin" }
 
 [env.betmodal]
 name = "awebchatbot-injector-betmodal"
-routes = [{ pattern = "betmodal.com/*", zone_name = "betmodal.com" }]
-vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_BETMODAL_KEY", EXCLUDE_PATHS = "/admin,/play" }
+routes = [{ pattern = "betmodal.com/*", zone_name = "betmodal.com" }, { pattern = "www.betmodal.com/*", zone_name = "betmodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.blueloke.workers.dev/widget.js", WIDGET_KEY = "pk_wo9khwsrmb8x7mybu3h8gd", EXCLUDE_PATHS = "/admin,/play" }
 
 [env.robomodal]
 name = "awebchatbot-injector-robomodal"
-routes = [{ pattern = "robomodal.com/*", zone_name = "robomodal.com" }]
-vars = { WIDGET_SRC = "https://awebchatbot.YOUR-SUBDOMAIN.workers.dev/widget.js", WIDGET_KEY = "pk_ROBOMODAL_KEY", EXCLUDE_PATHS = "/admin" }
+routes = [{ pattern = "robomodal.com/*", zone_name = "robomodal.com" }, { pattern = "www.robomodal.com/*", zone_name = "robomodal.com" }]
+vars = { WIDGET_SRC = "https://awebchatbot.blueloke.workers.dev/widget.js", WIDGET_KEY = "pk_3dt3iltwynmqcjwl0siayk", EXCLUDE_PATHS = "/admin" }

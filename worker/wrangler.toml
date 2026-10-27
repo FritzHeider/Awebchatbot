@@ -19,7 +19,7 @@ html_handling = "auto-trailing-slash"
 not_found_handling = "none"
 
 [vars]
-PUBLIC_BASE_URL = ""
+PUBLIC_BASE_URL = "https://awebchatbot.blueloke.workers.dev"
 DEFAULT_PROVIDER = "anthropic"
 FALLBACK_PROVIDERS = "gemini,xai,workers-ai"
 ANTHROPIC_MODEL = "claude-haiku-5-5"
@@ -28,7 +28,7 @@ XAI_MODEL = "grok-4.6"
 OPENAI_MODEL = "gpt-5-mini"
 WORKERS_AI_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 EMBEDDING_MODEL = "@cf/baai/bge-base-en-v1.5"
-CF_ACCOUNT_ID = ""
+CF_ACCOUNT_ID = "fd2ff8c29a6d58c479032efea6c9ea62"
 AI_GATEWAY_ID = ""
 AUTO_CLOSE_HOURS = "24"
 MAX_CRAWL_PAGES = "150"
@@ -36,12 +36,12 @@ MAX_CRAWL_PAGES = "150"
 [[d1_databases]]
 binding = "DB"
 database_name = "awebchatbot"
-database_id = "00000000-0000-0000-0000-000000000000"
+database_id = "8b903151-2f60-4b07-b9de-de61151befae"
 migrations_dir = "migrations"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "00000000000000000000000000000000"
+id = "239f6b02e0eb44d497b74100796aaf90"
 
 [[r2_buckets]]
 binding = "FILES"
